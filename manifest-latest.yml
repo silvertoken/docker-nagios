@@ -1,0 +1,19 @@
+image: manios/nagios:latest
+manifests:
+  -
+    image: manios/nagios:latest
+    platform:
+      architecture: amd64
+      os: linux
+  -
+    image: manios/nagios:latest-armv6
+    platform:
+      architecture: arm
+      os: linux
+      variant: v6
+  -
+    image: manios/nagios:latest-armv7
+    platform:
+      architecture: arm
+      os: linux
+      variant: v7
