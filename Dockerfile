@@ -1,14 +1,10 @@
 ARG FROM_IMAGE_NAME=alpine:latest
+
 FROM $FROM_IMAGE_NAME as mybase
 
 # COPY qemu-arm-static /usr/bin/
 
-# docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi -f &&  time docker build -t manios/nagios:bu .
-# docker run -p 8080:80 -it --rm --name agios manios/nagios:bu /bin/sh
-
-# docker run --rm -u $(id -u):$(id -g) -v $PWD:/data vimagick/youtube-dl --limit-rate 150K http://streamcloud.eu/vtc949crkb3g/GR_God_Willing_2015.mp4.html
-
-# docker run --rm -u $(id -u):$(id -g) -v $PWD:/data vimagick/youtube-dl -F
+ARG GOSU_BIN=gosu-amd64
 
 ENV NAGIOS_HOME=/opt/nagios \
     NAGIOS_USER=nagios \
@@ -23,7 +19,8 @@ ENV NAGIOS_HOME=/opt/nagios \
     NAGIOS_PLUGINS_BRANCH=release-2.2.1 \
     NRPE_BRANCH=nrpe-3.2.1 \
     APACHE_LOCK_DIR=/var/run \
-    APACHE_LOG_DIR=/var/log/apache2
+    APACHE_LOG_DIR=/var/log/apache2 \
+    GOSU_VERSION=1.11
 
 RUN addgroup -S ${NAGIOS_GROUP} && \
     adduser  -S ${NAGIOS_USER} -G ${NAGIOS_CMDGROUP} && \
@@ -31,8 +28,13 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
     apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
                         php7 php7-gd php7-cli runit parallel ssmtp \
                         libltdl libintl openssl-dev php7-apache2 procps && \
-    wget https://github.com/tianon/gosu/releases/download/1.11/gosu-amd64 && \
-    mv gosu-amd64 /bin/gosu && \
+                                                \
+    : '# For x64 the binary is : gosu-amd64' && \
+    : '# For arm-v6 the binary is : gosu-armel' && \
+    : '# For arm-v7 the binary is : gosu-armhf' && \
+    echo "Try to download https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/${GOSU_BIN}" && \
+    wget https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/${GOSU_BIN} && \
+    mv ${GOSU_BIN} /bin/gosu && \
     chmod 755 /bin/gosu && \
     chmod +s /bin/gosu && \
     addgroup -S apache ${NAGIOS_CMDGROUP}
@@ -101,15 +103,3 @@ EXPOSE 80
 VOLUME "${NAGIOS_HOME}/var" "${NAGIOS_HOME}/etc" "/var/log/apache2" "/opt/Custom-Nagios-Plugins"
 
 CMD [ "/usr/local/bin/start_nagios" ]
-
-
-# docker build -t manios/nagios:latest .
-# docker run -it --rm -p 8080:80 manios/nagios:latest
-# docker run -it --name agios -p 8080:80 manios/nagios:latest
-
-# sed -i "s/^ *ScriptAlias.*$/ScriptAlias \\/cgi-bin\\/ \"${NAGIOS_HOME}\"\\/sbin\\//g" httpd.conf 
-
-#    ScriptAlias /cgi-bin /home/bob/
-
-# NAGIOS_HOME='/opt/nagios' && \
-# sed -i "s|^ *ScriptAlias.*$|ScriptAlias /cgi-bin $NAGIOS_HOME/sbin|g" sbob.conf

@@ -2,7 +2,7 @@
 
 # QEMU version variables
 QEMU_EXE=qemu-arm-static
-QEMU_VERSION=v4.0.0-2
+QEMU_VERSION=v4.1.0-1
 
 # download qemu
 curl -L https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_VERSION}/${QEMU_EXE}.tar.gz | tar zxvf - -C .
@@ -14,6 +14,7 @@ NEW_STRING="${DOCKER_TAG}"
 REGEX="^([^-]+)-?([^-]+)?$"
 VARIANT_REGEX="(arm)(v[67])"
 FROM_IMAGE_NAME="alpine:latest"
+GOSU_BIN="gosu-amd64"
 
 echo $NEW_STRING;
 
@@ -39,11 +40,11 @@ if [ "${ARCHITECTURE}" == "arm" ]; then
     sed -i 's/^# *\(COPY qemu-arm-static\)/\1/g' "${DOCKERFILE_PATH}"
     
     if [ "${ARC_VARIANT}" == "v6" ]; then
-        echo "Replacing the correct gosu binary link with gosu-armel (ARM v6)"
-        sed -i 's/gosu-amd64/gosu-armel/g' "${DOCKERFILE_PATH}"
+        GOSU_BIN="gosu-armel"
+        echo "Replacing the correct gosu binary link with ${GOSU_BIN} (ARM v6)"
     else
-        echo "Replacing the correct gosu binary link with gosu-armhf (ARM v7)"
-        sed -i 's/gosu-amd64/gosu-armhf/g' "${DOCKERFILE_PATH}"
+        GOSU_BIN="gosu-armhf"
+        echo "Replacing the correct gosu binary link with ${GOSU_BIN} (ARM v7)"
     fi
 fi
 
@@ -51,3 +52,4 @@ echo "export ALPINE_IMAGE_NAME=${FROM_IMAGE_NAME}" > imagevars.sh
 echo "export ALPINE_ARCHITECTURE=${ARCHITECTURE}" >> imagevars.sh
 echo "export ALPINE_ARC_VARIANT=${ARC_VARIANT}" >> imagevars.sh
 echo "export REPO_BRANCH=${MY_BRANCH}" >> imagevars.sh
+echo "export GOSU_BIN=${GOSU_BIN}" >> imagevars.sh

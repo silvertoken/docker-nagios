@@ -6,4 +6,7 @@ if [ -f ${MYVARSFILE} ]; then
     . ${MYVARSFILE}
 fi
 
-docker build --build-arg FROM_IMAGE_NAME="${ALPINE_IMAGE_NAME}" -f $DOCKERFILE_PATH -t $IMAGE_NAME .
+docker build --build-arg FROM_IMAGE_NAME="${ALPINE_IMAGE_NAME}" \
+             --build-arg GOSU_BIN="${GOSU_BIN}" \
+             -f $DOCKERFILE_PATH \
+             -t $IMAGE_NAME .
