@@ -17,7 +17,10 @@
 
 MY_MANIFEST_NAME="${IMAGE_NAME}"
 
-docker manifest create --amend ${MY_MANIFEST_NAME} ${IMAGE_NAME}
+docker manifest create ${IMAGE_NAME} \
+               --amend ${IMAGE_NAME} \
+               --amend ${IMAGE_NAME}-armv6 \
+               --amend ${IMAGE_NAME}-armv7
 
 docker manifest annotate ${MY_MANIFEST_NAME} "${IMAGE_NAME}-armv6" --arch arm --os linux --variant v6
 
