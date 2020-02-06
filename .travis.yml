@@ -15,9 +15,11 @@ script:
   - travis_retry ./hooks/build
 
 after_script:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
   - export DOCKER_CLI_EXPERIMENTAL=enabled
   - ./hooks/post_push
   - docker images
   - docker manifest inspect $IMAGE_NAME
+  - docker logout
 
 # vim:set et ts=2 sw=2:
