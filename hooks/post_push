@@ -15,6 +15,7 @@
 #     docker manifest annotate ${MY_MANIFEST_NAME} $IMAGE_NAME --arch ${ALPINE_ARCHITECTURE} --os linux --variant ${ALPINE_ARC_VARIANT}
 # else
 
+export DOCKER_CLI_EXPERIMENTAL=enabled
 MY_MANIFEST_NAME="${IMAGE_NAME}"
 
 docker manifest create ${IMAGE_NAME} \
