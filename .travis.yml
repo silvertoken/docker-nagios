@@ -10,9 +10,7 @@ env:
 before_script:
   - ./hooks/post_checkout
   - ./hooks/pre_build
-  - git checkout v${VERSION} -b v${VERSION}
-  - image="varnish:$VERSION"
-
+  
 script:
   - travis_retry ./hooks/pre_build
 
