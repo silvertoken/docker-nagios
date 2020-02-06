@@ -16,6 +16,7 @@ script:
 
 after_script:
   - docker login -u manios -p "$DOCKER_PASSWORD"
+  - docker push $IMAGE_NAME
   - export DOCKER_CLI_EXPERIMENTAL=enabled
   - docker manifest --help
   - ./hooks/post_push
