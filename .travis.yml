@@ -15,7 +15,7 @@ script:
   - travis_retry ./hooks/pre_build
 
 after_script:
-  - ./hooks_post_push
+  - ./hooks/post_push
   - docker images
   - docker inspect $IMAGE_NAME
 
