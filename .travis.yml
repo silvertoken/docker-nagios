@@ -22,6 +22,9 @@ after_script:
   - ./hooks/post_push
   - docker images
   - docker manifest inspect $IMAGE_NAME
+  - docker manifest create $IMAGE_NAME --amend $IMAGE_NAME-armv6
+  - docker manifest annotate ${IMAGE_NAME} "${IMAGE_NAME}-armv6" --arch arm --os linux --variant v6
+  - docker manifest push ${IMAGE_NAME}
   - docker logout
 
 # vim:set et ts=2 sw=2:
