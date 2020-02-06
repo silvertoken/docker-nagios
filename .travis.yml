@@ -12,7 +12,7 @@ before_script:
   - ./hooks/pre_build
   
 script:
-  - travis_retry ./hooks/pre_build
+  - travis_retry ./hooks/build
 
 after_script:
   - ./hooks/post_push
