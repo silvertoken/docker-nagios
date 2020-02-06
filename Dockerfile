@@ -1,10 +1,12 @@
 ARG FROM_IMAGE_NAME=alpine:latest
+ARG FROM_SRC_IMAGE_NAME=manios/nagios-src-builder:latest
 
 FROM $FROM_IMAGE_NAME as mybase
 
 # COPY qemu-arm-static /usr/bin/
 
 ARG GOSU_BIN=gosu-amd64
+ARG FROM_SRC_IMAGE_NAME
 
 ENV NAGIOS_HOME=/opt/nagios \
     NAGIOS_USER=nagios \
@@ -44,7 +46,7 @@ RUN addgroup -S ${NAGIOS_GROUP} && \
 ###   STAGE 2 COMPILE NAGIOS SOURCES   ###
 ### ================================== ###
 
-FROM manios/nagios-src-builder:latest as sourcebuilder
+FROM $FROM_SRC_IMAGE_NAME as sourcebuilder
 
 # Print something to denote that the sourcebuilder image has been downloaded
 RUN echo "Downloaded manios/nagios-src-builder image"
