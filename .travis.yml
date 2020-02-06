@@ -15,8 +15,9 @@ script:
   - travis_retry ./hooks/build
 
 after_script:
+  - export DOCKER_CLI_EXPERIMENTAL=enabled
   - ./hooks/post_push
   - docker images
-  - docker inspect $IMAGE_NAME
+  - docker manifest inspect $IMAGE_NAME
 
 # vim:set et ts=2 sw=2:
