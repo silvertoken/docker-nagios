@@ -1,6 +1,11 @@
 language: bash
 services: docker
 
+addons:
+  apt:
+    packages:
+      - docker-ce
+
 env:
   - VERSION=4.4.6 DOCKERFILE_PATH="./Dockerfile" IMAGE_NAME="manios/nagios:$VERSION"
   
