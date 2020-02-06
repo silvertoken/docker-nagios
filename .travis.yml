@@ -2,9 +2,7 @@ language: bash
 services: docker
 
 env:
-  - VERSION=4.4.6
-  - DOCKERFILE_PATH="./Dockerfile"
-  - IMAGE_NAME=manios/nagios:$VERSION
+  - VERSION=4.4.6 DOCKERFILE_PATH="./Dockerfile" IMAGE_NAME="manios/nagios:$VERSION"
   
 # install:
 #   - git clone https://github.com/manios/docker-varnish.git
