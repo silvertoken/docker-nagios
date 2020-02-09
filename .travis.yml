@@ -1,3 +1,4 @@
+sudo: true
 language: bash
 services: docker
 
@@ -22,6 +23,8 @@ script:
 after_script:
   - docker login -u manios -p "$DOCKER_PASSWORD"
   - docker push $IMAGE_NAME
+  - docker push $IMAGE_NAME-armv6
+  - docker push $IMAGE_NAME-armv7
   - export DOCKER_CLI_EXPERIMENTAL=enabled
   - docker manifest --help
   - ./hooks/post_push
