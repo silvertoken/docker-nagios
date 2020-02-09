@@ -26,9 +26,9 @@ after_script:
   - docker push $IMAGE_NAME-armv6
   - docker push $IMAGE_NAME-armv7
   - export DOCKER_CLI_EXPERIMENTAL=enabled
-  - docker manifest --help
+  # - docker manifest --help
   - ./hooks/post_push
-  - env
+  # - env
   - docker images
   # - docker manifest inspect $IMAGE_NAME
   # - docker manifest create $IMAGE_NAME --amend $IMAGE_NAME-armv6

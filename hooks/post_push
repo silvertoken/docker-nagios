@@ -22,6 +22,8 @@ docker manifest create ${IMAGE_NAME} \
                ${IMAGE_NAME}-armv6 \
                ${IMAGE_NAME}-armv7
 
+docker manifest annotate ${MY_MANIFEST_NAME} "${IMAGE_NAME}" --arch amd64 --os linux
+
 docker manifest annotate ${MY_MANIFEST_NAME} "${IMAGE_NAME}-armv6" --arch arm --os linux --variant v6
 
 docker manifest annotate ${MY_MANIFEST_NAME} "${IMAGE_NAME}-armv7" --arch arm --os linux --variant v7
