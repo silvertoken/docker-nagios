@@ -26,8 +26,8 @@ docker manifest annotate ${MY_MANIFEST_NAME} "${IMAGE_NAME}-armv6" --arch arm --
 
 docker manifest annotate ${MY_MANIFEST_NAME} "${IMAGE_NAME}-armv7" --arch arm --os linux --variant v7
 
-# echo "Pushing manifest ${MY_MANIFEST_NAME}"
+echo "Pushing manifest ${MY_MANIFEST_NAME}"
 
-# docker manifest push ${MY_MANIFEST_NAME}
+docker manifest push ${MY_MANIFEST_NAME}
 
-# echo "Pushing manifest ${MY_MANIFEST_NAME} SUCCESS"
+echo "Pushing manifest ${MY_MANIFEST_NAME} SUCCESS"
