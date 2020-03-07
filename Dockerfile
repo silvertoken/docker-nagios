@@ -1,9 +1,7 @@
 ARG FROM_IMAGE_NAME=alpine:latest
-ARG FROM_SRC_IMAGE_NAME=manios/nagios-src-builder:latest
+ARG FROM_SRC_IMAGE_NAME=silvertoken/docker-nagios-builder:latest
 
 FROM $FROM_IMAGE_NAME as mybase
-
-# COPY qemu-arm-static /usr/bin/
 
 ARG GOSU_BIN=gosu-amd64
 ARG FROM_SRC_IMAGE_NAME
@@ -27,7 +25,7 @@ ENV NAGIOS_HOME=/opt/nagios \
 RUN addgroup -S ${NAGIOS_GROUP} && \
     adduser  -S ${NAGIOS_USER} -G ${NAGIOS_CMDGROUP} && \
     apk update && \
-    apk add --no-cache git curl unzip apache2 apache2-utils rsyslog \
+    apk add --no-cache git curl unzip apache2 apache2-utils rsyslog net-snmp net-snmp-tools \
                         php7 php7-gd php7-cli runit parallel ssmtp \
                         libltdl libintl openssl-dev php7-apache2 procps && \
                                                 \
@@ -57,12 +55,12 @@ RUN echo "Downloaded manios/nagios-src-builder image"
 
 FROM mybase
 
-MAINTAINER Christos Manios <maniopaido@gmail.com>
+MAINTAINER Silvertoken <1569232+silvertoken@users.noreply.github.com>
 
 LABEL name="Nagios" \
       version="4.4.5" \
       homepage="https://www.nagios.com/" \
-      maintainer="Christos Manios <maniopaido@gmail.com>" \
+      maintainer="Silvertoken <1569232+silvertoken@users.noreply.github.com>" \
       build="1"
 
 
